@@ -1,10 +1,11 @@
 package me.dio.academia.digital.controller;
 
+import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.form.AvaliacaoFisicaForm;
 import me.dio.academia.digital.service.impl.AvaliacaoFisicaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,23 +18,27 @@ public class AvaliacaoFisicaController {
     private AvaliacaoFisicaServiceImpl service;
 
     @PostMapping
-    public AvaliacaoFisica create(@Validated @RequestBody AvaliacaoFisicaForm form) {
-        return service.create(form);
+    public ResponseEntity<AvaliacaoFisicaDTO> create(@RequestBody AvaliacaoFisicaForm form) {
+        AvaliacaoFisicaDTO dto = service.create(form);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public List<AvaliacaoFisica> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<AvaliacaoFisicaDTO>> findAll() {
+        List<AvaliacaoFisicaDTO> avaliacoesDTO = service.findAll();
+        return ResponseEntity.ok(avaliacoesDTO);
     }
 
     @GetMapping("/{id}")
-    public AvaliacaoFisica getById(@PathVariable Long id ) {
-      return  service.get(id);
+    public ResponseEntity<AvaliacaoFisicaDTO> findById(@PathVariable Long id ) {
+      AvaliacaoFisicaDTO avaliacaoDTO = service.findById(id);
+        return ResponseEntity.ok(avaliacaoDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

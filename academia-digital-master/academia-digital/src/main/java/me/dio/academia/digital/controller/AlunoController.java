@@ -2,7 +2,6 @@ package me.dio.academia.digital.controller;
 
 import me.dio.academia.digital.dto.AlunoDTO;
 import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
-import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.form.AlunoForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +44,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AlunoDTO> update(@Validated @PathVariable Long id, @RequestBody AlunoForm form) {
+    public ResponseEntity<AlunoDTO> update(@PathVariable Long id, @RequestBody AlunoForm form) {
         AlunoDTO alunoDTO = service.update(id, form);
         return ResponseEntity.ok(alunoDTO);
     }

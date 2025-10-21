@@ -3,6 +3,7 @@ package me.dio.academia.digital.service.impl;
 import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
 import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
+import me.dio.academia.digital.exceptions.ResourceNotFoundException;
 import me.dio.academia.digital.form.AvaliacaoFisicaForm;
 import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.repository.AvaliacaoFisicaRepository;
@@ -11,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -39,28 +41,31 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisica {
     @Override
     public AvaliacaoFisicaDTO findById(Long id) {
         AvaliacaoFisica avaliacaoFisica = avaliacaoFisicaRepository.findById(id)
-                .orElseThrow(()-> new Re)
-
-
+                .orElseThrow(()-> new ResourceNotFoundException("Aluno não existe."));
+        return modelMapper.map(avaliacaoFisica, AvaliacaoFisicaDTO.class);
     }
 
     @Override
-    public List<AvaliacaoFisica> getAll() {
-        return avaliacaoFisicaRepository.findAll();
+    public List<AvaliacaoFisicaDTO> findAll() {
+        List<AvaliacaoFisica> avaliacoes = avaliacaoFisicaRepository.findAll();
+        return avaliacoes.stream().map(avaliacao -> modelMapper.map(avaliacao, AvaliacaoFisicaDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public AvaliacaoFisica upDate(Long id, AvaliacaoFisicaForm formUpdate) {
-        AvaliacaoFisica avaliacaoFisica = get(id);
-        avaliacaoFisica.setPeso(formUpdate.getPeso());
-        avaliacaoFisica.setAltura(formUpdate.getAltura());
-        return avaliacaoFisicaRepository.save(avaliacaoFisica);
+    public AvaliacaoFisicaDTO upDate(Long id, AvaliacaoFisicaForm formUpdate) {
+        AvaliacaoFisica avaliacaoExist = avaliacaoFisicaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não existe."));
+        AvaliacaoFisica avaliacaoUpdate = avaliacaoFisicaRepository.save(avaliacaoExist);
+        return modelMapper.map(avaliacaoUpdate, AvaliacaoFisicaDTO.class);
+
     }
 
     @Override
     public void delete(Long id) {
-        get(id);
-        avaliacaoFisicaRepository.deleteById(id);
+        AvaliacaoFisica avaliacaoFisica = avaliacaoFisicaRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Aluno não existe."));
+        avaliacaoFisicaRepository.delete(avaliacaoFisica);
 
     }
 }
