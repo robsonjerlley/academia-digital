@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/academia
+    username: root
+    password: user
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.format_sql: true
+  jackson:
+    date-format: dd/MM/yyyy
+
+
