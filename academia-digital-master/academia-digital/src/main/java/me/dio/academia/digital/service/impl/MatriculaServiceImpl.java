@@ -1,54 +1,59 @@
 package me.dio.academia.digital.service.impl;
 
+import me.dio.academia.digital.dto.MatriculaDTO;
 import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.Matricula;
+import me.dio.academia.digital.exceptions.ResourceNotFoundException;
 import me.dio.academia.digital.form.MatriculaForm;
 import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.repository.MatriculaRepository;
 import me.dio.academia.digital.service.IMatriculaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class MatriculaServiceImpl implements IMatriculaService {
 
-    @Autowired
-    private MatriculaRepository matriculaRepository;
 
-    @Autowired
-    private AlunoRepository alunoRepository;
+    private final MatriculaRepository matriculaRepository;
 
+
+    private final AlunoRepository alunoRepository;
+
+    private final ModelMapper modelMapper;
+
+    public MatriculaServiceImpl(MatriculaRepository matriculaRepository, AlunoRepository alunoRepository, ModelMapper modelMapper) {
+        this.matriculaRepository = matriculaRepository;
+        this.alunoRepository = alunoRepository;
+        this.modelMapper = modelMapper;
+    }
 
 
     @Override
-    public Matricula create(MatriculaForm form) {
+    public MatriculaDTO create(MatriculaForm form) {
         Matricula matricula = new Matricula();
-        Aluno aluno = alunoRepository.findById(form.getAlunoId()).orElseThrow();
+        Aluno aluno = alunoRepository.findById(form.getAlunoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não existe"));
         matricula.setAluno(aluno);
 
-        return matriculaRepository.save(matricula);
+        Matricula matriculaSalva = matriculaRepository.save(matricula);
+        return modelMapper.map(matriculaSalva, MatriculaDTO.class);
     }
 
     @Override
-    public List<Matricula> getAll() {
-
-        return matriculaRepository.findAll();
-    }
-
-    public Matricula getId(Long id) {
-
-      return   matriculaRepository.findById(id).orElseThrow();
+    public List<MatriculaDTO> findAll() {
+     List<Matricula> matriculas = matriculaRepository.findAll();
+        return matriculas.stream().map(matricula -> modelMapper.map(matricula, MatriculaDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void delete(Long id) {
-        try {
-            Matricula matricula = getId(id);
-            matriculaRepository.delete(matricula);
-        } catch (Exception e) {
-            System.out.println("ERRO: Id não existe!");
-            throw new RuntimeException(e);
-        }
+        Matricula matricula = matriculaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Matrícula não encontrada com o ID: " + id));
+                matriculaRepository.delete(matricula);
     }
 }

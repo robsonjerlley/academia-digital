@@ -2,11 +2,6 @@ package me.dio.academia.digital.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import me.dio.academia.digital.infra.utils.JavaTimeUtils;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 

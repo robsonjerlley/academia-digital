@@ -2,12 +2,7 @@ package me.dio.academia.digital.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
-
-
 import java.time.LocalDate;
 import java.util.Objects;
 

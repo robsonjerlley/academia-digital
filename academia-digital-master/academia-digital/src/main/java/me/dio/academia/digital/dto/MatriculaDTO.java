@@ -1,9 +1,6 @@
 package me.dio.academia.digital.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import me.dio.academia.digital.infra.utils.JavaTimeUtils;
 
 import java.time.LocalDateTime;

@@ -1,37 +1,39 @@
 package me.dio.academia.digital.controller;
 
-import me.dio.academia.digital.entity.Matricula;
+import me.dio.academia.digital.dto.MatriculaDTO;
 import me.dio.academia.digital.form.MatriculaForm;
 import me.dio.academia.digital.service.impl.MatriculaServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/matriculas")
 public class MatriculaController {
 
-    @Autowired
-    private MatriculaServiceImpl service;
+    private final MatriculaServiceImpl service;
 
-    @GetMapping
-    public List<Matricula> getAll() {
-        return service.getAll();
-
+    public MatriculaController(MatriculaServiceImpl service) {
+        this.service = service;
     }
+
 
     @PostMapping
-    public Matricula create(@Validated @RequestBody MatriculaForm form) {
-
-        return service.create(form);
+    public ResponseEntity<MatriculaDTO>create(@RequestBody MatriculaForm form) {
+        MatriculaDTO dto = service.create(form);
+        return ResponseEntity.ok(dto);
     }
 
+    @GetMapping
+    public ResponseEntity<List<MatriculaDTO>> findAll() {
+        List<MatriculaDTO> matirculasDTO = service.findAll();
+        return ResponseEntity.ok(matirculasDTO);
 
+    }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 
