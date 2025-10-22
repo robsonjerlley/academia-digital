@@ -5,7 +5,7 @@ import me.dio.academia.digital.exceptions.ResourceNotFoundException;
 import me.dio.academia.digital.repository.UsuarioRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,10 +15,9 @@ public class AutentificacaoService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    private final BCryptPasswordEncoder passwordEncoder;
+   private  final PasswordEncoder passwordEncoder;
 
-
-    public AutentificacaoService(UsuarioRepository usuarioRepository, JwtService jwtService, AuthenticationManager authenticationManager, BCryptPasswordEncoder passwordEncoder) {
+   public AutentificacaoService(UsuarioRepository usuarioRepository, JwtService jwtService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;

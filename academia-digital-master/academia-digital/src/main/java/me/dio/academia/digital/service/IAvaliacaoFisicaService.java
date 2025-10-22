@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public interface IAvaliacaoFisica {
+public interface IAvaliacaoFisicaService {
 
     AvaliacaoFisicaDTO create(AvaliacaoFisicaForm form);
 

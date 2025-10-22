@@ -1,9 +1,8 @@
 package me.dio.academia.digital.controller;
 
 import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
-import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.form.AvaliacaoFisicaForm;
-import me.dio.academia.digital.service.impl.AvaliacaoFisicaServiceImpl;
+import me.dio.academia.digital.service.impl.AvaliacaoFisicaServiceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 public class AvaliacaoFisicaController {
 
     @Autowired
-    private AvaliacaoFisicaServiceImpl service;
+    private AvaliacaoFisicaServiceServiceImpl service;
 
     @PostMapping
     public ResponseEntity<AvaliacaoFisicaDTO> create(@RequestBody AvaliacaoFisicaForm form) {
