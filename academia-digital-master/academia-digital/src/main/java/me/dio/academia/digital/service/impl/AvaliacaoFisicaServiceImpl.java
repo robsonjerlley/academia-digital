@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class AvaliacaoFisicaServiceServiceImpl implements IAvaliacaoFisicaService {
+public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
 
     private final AvaliacaoFisicaRepository avaliacaoFisicaRepository;
     private final AlunoRepository alunoRepository;
 
     private final ModelMapper modelMapper;
 
-    public AvaliacaoFisicaServiceServiceImpl(AvaliacaoFisicaRepository avaliacaoFisicaRepository, AlunoRepository alunoRepository, ModelMapper modelMapper) {
+    public AvaliacaoFisicaServiceImpl(AvaliacaoFisicaRepository avaliacaoFisicaRepository, AlunoRepository alunoRepository, ModelMapper modelMapper) {
         this.avaliacaoFisicaRepository = avaliacaoFisicaRepository;
         this.alunoRepository = alunoRepository;
         this.modelMapper = modelMapper;

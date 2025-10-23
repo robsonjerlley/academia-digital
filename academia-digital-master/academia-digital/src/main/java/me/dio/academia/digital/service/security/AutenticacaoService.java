@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AutentificacaoService {
+public class AutenticacaoService {
 
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
@@ -17,7 +17,7 @@ public class AutentificacaoService {
 
    private  final PasswordEncoder passwordEncoder;
 
-   public AutentificacaoService(UsuarioRepository usuarioRepository, JwtService jwtService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+   public AutenticacaoService(UsuarioRepository usuarioRepository, JwtService jwtService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;

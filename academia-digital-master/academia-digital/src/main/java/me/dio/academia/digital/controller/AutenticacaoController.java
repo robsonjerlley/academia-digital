@@ -1,34 +1,29 @@
 package me.dio.academia.digital.controller;
 
-import me.dio.academia.digital.dto.UsuarioDTO;
-import me.dio.academia.digital.entity.Usuario;
-import me.dio.academia.digital.form.UsuarioForm;
-import me.dio.academia.digital.service.impl.UsuarioServiceImpl;
-import me.dio.academia.digital.service.security.AutentificacaoService;
+import me.dio.academia.digital.dto.LoginRequestDTO;
+import me.dio.academia.digital.dto.LoginResponseDTO;
+import me.dio.academia.digital.service.security.AutenticacaoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/autenticacao")
 public class AutenticacaoController {
 
-    private final AutentificacaoService autentificacaoService;
-    private final UsuarioServiceImpl service;
+    private final AutenticacaoService service;
 
-    public AutenticacaoController(AutentificacaoService autentificacaoService, UsuarioServiceImpl service) {
-        this.autentificacaoService = autentificacaoService;
+
+    public AutenticacaoController(AutenticacaoService service) {
         this.service = service;
     }
-    @PostMapping()
-    public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioForm form) {
-        UsuarioDTO dot = service.create(form);
-        return ResponseEntity.ok(dot);
-    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String username) {
-        service.delete(username);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO>autenticar(@RequestBody LoginRequestDTO request) {
+        String token = service.authenticate(request.username(), request.password());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
 }

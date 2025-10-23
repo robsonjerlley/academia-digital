@@ -4,6 +4,7 @@ import me.dio.academia.digital.dto.AlunoDTO;
 import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
 import me.dio.academia.digital.form.AlunoForm;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import me.dio.academia.digital.service.impl.AlunoServiceImpl;
 
@@ -21,7 +22,7 @@ public class AlunoController {
     }
 
     @PostMapping()
-    public ResponseEntity<AlunoDTO> create(@RequestBody AlunoForm form) {
+    public ResponseEntity<AlunoDTO> create(@Validated @RequestBody AlunoForm form) {
         AlunoDTO dto = service.create(form);
         return ResponseEntity.ok(dto);
     }
@@ -46,7 +47,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AlunoDTO> update(@PathVariable Long id, @RequestBody AlunoForm form) {
+    public ResponseEntity<AlunoDTO> update(@Validated @PathVariable Long id, @RequestBody AlunoForm form) {
         AlunoDTO alunoDTO = service.update(id, form);
         return ResponseEntity.ok(alunoDTO);
     }

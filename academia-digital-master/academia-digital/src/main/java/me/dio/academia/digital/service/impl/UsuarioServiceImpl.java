@@ -10,6 +10,9 @@ import me.dio.academia.digital.service.IUsuarioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
@@ -28,6 +31,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
         Usuario usuario = modelMapper.map(form, Usuario.class);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return modelMapper.map(usuarioSalvo, UsuarioDTO.class);
+    }
+
+    @Override
+    public List<UsuarioDTO> findAll() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return usuarios.stream().map(usuario -> modelMapper.map(usuario,UsuarioDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

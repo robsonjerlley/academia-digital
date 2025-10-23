@@ -2,6 +2,7 @@ package me.dio.academia.digital.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,13 +29,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sessão stateless
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/autenticacao/**").permitAll() //
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers("/alunos/**").authenticated()
+                        .requestMatchers("/matriculas/**").authenticated()
+                        .requestMatchers("/avaliacoes/**").authenticated()
                         .anyRequest().authenticated()
-                )
-                .build();
+                );
+
+
+
+          return http.build();
     }
 }

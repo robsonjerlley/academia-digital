@@ -4,6 +4,7 @@ import me.dio.academia.digital.dto.MatriculaDTO;
 import me.dio.academia.digital.form.MatriculaForm;
 import me.dio.academia.digital.service.impl.MatriculaServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class MatriculaController {
 
 
     @PostMapping
-    public ResponseEntity<MatriculaDTO>create(@RequestBody MatriculaForm form) {
+    public ResponseEntity<MatriculaDTO>create(@Validated @RequestBody MatriculaForm form) {
         MatriculaDTO dto = service.create(form);
         return ResponseEntity.ok(dto);
     }

@@ -2,9 +2,10 @@ package me.dio.academia.digital.controller;
 
 import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
 import me.dio.academia.digital.form.AvaliacaoFisicaForm;
-import me.dio.academia.digital.service.impl.AvaliacaoFisicaServiceServiceImpl;
+import me.dio.academia.digital.service.impl.AvaliacaoFisicaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +15,10 @@ import java.util.List;
 public class AvaliacaoFisicaController {
 
     @Autowired
-    private AvaliacaoFisicaServiceServiceImpl service;
+    private AvaliacaoFisicaServiceImpl service;
 
     @PostMapping
-    public ResponseEntity<AvaliacaoFisicaDTO> create(@RequestBody AvaliacaoFisicaForm form) {
+    public ResponseEntity<AvaliacaoFisicaDTO> create(@Validated @RequestBody AvaliacaoFisicaForm form) {
         AvaliacaoFisicaDTO dto = service.create(form);
         return ResponseEntity.ok(dto);
     }
