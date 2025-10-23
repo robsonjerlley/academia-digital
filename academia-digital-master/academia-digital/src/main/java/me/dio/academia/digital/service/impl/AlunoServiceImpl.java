@@ -6,7 +6,6 @@ import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.form.AlunoForm;
 import me.dio.academia.digital.service.IAlunoService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import me.dio.academia.digital.repository.AlunoRepository;
 
@@ -16,11 +15,16 @@ import java.util.stream.Collectors;
 @Service
 public class AlunoServiceImpl implements IAlunoService {
 
-    @Autowired
-    private AlunoRepository alunoRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final AlunoRepository alunoRepository;
+
+
+    private final ModelMapper modelMapper;
+
+    public AlunoServiceImpl(AlunoRepository alunoRepository, ModelMapper modelMapper) {
+        this.alunoRepository = alunoRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public AlunoDTO create(AlunoForm form) {
