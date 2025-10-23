@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -18,9 +20,22 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping
-    public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioForm form) {
+    @PostMapping("/criar")
+    public ResponseEntity<UsuarioDTO> create(@PathVariable @Valid @RequestBody UsuarioForm form) {
         UsuarioDTO novoUsuario = usuarioService.create(form);
         return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioDTO>>findAll(){
+        List<UsuarioDTO> usuarios = usuarioService.findAll();
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void>delete(@PathVariable String username) {
+        usuarioService.delete(username);
+        return ResponseEntity.noContent().build();
+    }
+
 }
