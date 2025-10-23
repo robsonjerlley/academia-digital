@@ -8,8 +8,9 @@ import me.dio.academia.digital.form.UsuarioForm;
 import me.dio.academia.digital.repository.UsuarioRepository;
 import me.dio.academia.digital.service.IUsuarioService;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
 

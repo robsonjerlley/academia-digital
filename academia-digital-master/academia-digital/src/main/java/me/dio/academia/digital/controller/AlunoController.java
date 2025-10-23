@@ -3,9 +3,7 @@ package me.dio.academia.digital.controller;
 import me.dio.academia.digital.dto.AlunoDTO;
 import me.dio.academia.digital.dto.AvaliacaoFisicaDTO;
 import me.dio.academia.digital.form.AlunoForm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import me.dio.academia.digital.service.impl.AlunoServiceImpl;
 
@@ -15,11 +13,15 @@ import java.util.List;
 @RequestMapping("/alunos")
 public class AlunoController {
 
-    @Autowired
-    private AlunoServiceImpl service;
+
+    private final AlunoServiceImpl service;
+
+    public AlunoController(AlunoServiceImpl service) {
+        this.service = service;
+    }
 
     @PostMapping()
-    public ResponseEntity<AlunoDTO> create(@Validated @RequestBody AlunoForm form) {
+    public ResponseEntity<AlunoDTO> create(@RequestBody AlunoForm form) {
         AlunoDTO dto = service.create(form);
         return ResponseEntity.ok(dto);
     }

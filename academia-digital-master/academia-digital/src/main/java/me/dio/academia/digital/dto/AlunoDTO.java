@@ -1,11 +1,6 @@
 package me.dio.academia.digital.dto;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Positive;
+
 
 
 import java.time.LocalDate;
@@ -16,17 +11,16 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AlunoDTO {
 
-    @NotNull(message = "Preencha o campo corretamente")
-    @Positive
+
+
     private Long id;
 
-    @NotNull(message = "Preencha o campo corretamente")
+
     private String name;
-    @NotBlank(message = "Preencha o campo corretamente")
+
     private String cpf;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @Past(message = "DATA: '${validateValue}' é inválida")
+
     private LocalDate dataNascimento;
 
     private List<AvaliacaoFisicaDTO> avaliacoes;
