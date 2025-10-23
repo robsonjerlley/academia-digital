@@ -1,6 +1,5 @@
 package me.dio.academia.digital.service.security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -17,31 +16,35 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "minha-chave-super-secreta-para-jwt-256bits";
+    private static final String SECRET_STRING = "minha-chave-super-secreta-para-jwt-256bits";
     private static final long EXPIRACAO_MINUTOS = 30;
+
+    private static final SecretKey SIGNING_KEY;
+
+    static {
+        byte[] keyBytes = SECRET_STRING.getBytes(StandardCharsets.UTF_8);
+        SIGNING_KEY = Keys.hmacShaKeyFor(keyBytes);
+    }
 
     public String generateToken(Usuario usuario) {
         return Jwts.builder()
-                .subject(usuario.getUserName())
+                .subject(usuario.getUsername()) // Usar getUsername() da interface UserDetails
                 .claim("role", usuario.getRole().name())
-                .issuedAt(new Date()) // data de emissão
+                .issuedAt(new Date())
                 .expiration(Date.from(Instant.now().plus(EXPIRACAO_MINUTOS, ChronoUnit.MINUTES)))
-                .issuer("SistemaMensagens") // emissor do token
+                .issuer("SistemaAcademia")
                 .signWith(getKey())
                 .compact();
     }
 
-
     public boolean isTokenValido(String token, Usuario usuario) {
-        String email = extractEmail(token);
-        return (email.equals(usuario.getUserName()) && !isTokenExpirado(token));
+        String username = extractUsername(token);
+        return (username.equals(usuario.getUsername()) && !isTokenExpirado(token));
     }
-
 
     public boolean isTokenExpirado(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
-
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
@@ -56,13 +59,12 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-
-    public String extractEmail(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+
     private SecretKey getKey() {
-        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return SIGNING_KEY;
     }
 }

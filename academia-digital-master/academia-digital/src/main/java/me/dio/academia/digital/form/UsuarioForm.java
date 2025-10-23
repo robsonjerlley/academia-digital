@@ -8,11 +8,11 @@ import me.dio.academia.digital.entity.enums.Role;
 import java.util.Objects;
 
 public class UsuarioForm {
-    @NotNull(message = "Preencha o campo corretamente.")
+    @NotBlank(message = "O nome de usuário não pode estar em branco.")
     private  String username;
-    @NotBlank(message = "O campo é obrigatório, preencha sem espaços.")
+    @NotBlank(message = "A senha não pode estar em branco.")
     private String password;
-    @NotNull(message =  "Preencha o campo corretamente, o campo é obrigatório.")
+    @NotNull(message =  "A role (perfil) do usuário é obrigatória.")
     private Role role;
 
 

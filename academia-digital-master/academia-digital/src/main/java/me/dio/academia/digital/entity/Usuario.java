@@ -87,7 +87,6 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    // Manter o método original para compatibilidade, se necessário
     public String getUserName() {
         return username;
     }
