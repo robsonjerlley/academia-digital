@@ -8,6 +8,7 @@ import me.dio.academia.digital.form.UsuarioForm;
 import me.dio.academia.digital.repository.UsuarioRepository;
 import me.dio.academia.digital.service.IUsuarioService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,16 +20,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, ModelMapper modelMapper) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     @Override
     public UsuarioDTO create(UsuarioForm form) {
-        Usuario usuario = modelMapper.map(form, Usuario.class);
+        Usuario usuario = new Usuario();
+        usuario.setUsername(form.getUsername());
+        usuario.setPassword(passwordEncoder.encode(form.getPassword()));
+        usuario.setRole(form.getRole());
+
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return modelMapper.map(usuarioSalvo, UsuarioDTO.class);
     }

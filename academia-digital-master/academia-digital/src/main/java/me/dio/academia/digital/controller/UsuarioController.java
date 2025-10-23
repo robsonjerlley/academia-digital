@@ -1,42 +1,26 @@
 package me.dio.academia.digital.controller;
 
+import jakarta.validation.Valid;
 import me.dio.academia.digital.dto.UsuarioDTO;
 import me.dio.academia.digital.form.UsuarioForm;
-import me.dio.academia.digital.service.impl.UsuarioServiceImpl;
-import me.dio.academia.digital.service.security.AutenticacaoService;
+import me.dio.academia.digital.service.IUsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
-    private final AutenticacaoService autenticacaoService;
-    private final UsuarioServiceImpl service;
+    private final IUsuarioService usuarioService;
 
-    public UsuarioController(AutenticacaoService autenticacaoService, UsuarioServiceImpl service) {
-        this.autenticacaoService = autenticacaoService;
-        this.service = service;
-    }
-    @PostMapping("/registrar")
-    public ResponseEntity<UsuarioDTO> create(@Validated @RequestBody UsuarioForm form) {
-        UsuarioDTO dot = service.create(form);
-        return ResponseEntity.ok(dot);
+    public UsuarioController(IUsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioDTO>>findall() {
-        List<UsuarioDTO> usuarios = service.findAll();
-        return ResponseEntity.ok(usuarios);
+    @PostMapping
+    public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioForm form) {
+        UsuarioDTO novoUsuario = usuarioService.create(form);
+        return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String username) {
-        service.delete(username);
-        return ResponseEntity.noContent().build();
-    }
-
 }

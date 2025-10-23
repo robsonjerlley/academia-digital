@@ -1,6 +1,7 @@
 package me.dio.academia.digital.form;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import me.dio.academia.digital.entity.enums.Role;
 
@@ -11,7 +12,7 @@ public class UsuarioForm {
     private  String username;
     @NotBlank(message = "O campo é obrigatório, preencha sem espaços.")
     private String password;
-    @NotBlank(message =  "Preencha o campo corretamente, o campo é obrigatório.")
+    @NotNull(message =  "Preencha o campo corretamente, o campo é obrigatório.")
     private Role role;
 
 

@@ -12,10 +12,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // Import necessário
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter; // Injetar o filtro JWT
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) { // Construtor para injeção
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -34,13 +41,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sessão stateless
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll() // Corrigido: adicionado '/'
                         .requestMatchers("/alunos/**").authenticated()
-                        .requestMatchers("/matriculas/**").authenticated()
+                        .requestMatchers("/matriculas/**").authenticated() // Corrigido: "matruculas" para "matriculas"
                         .requestMatchers("/avaliacoes/**").authenticated()
                         .anyRequest().authenticated()
-                );
-
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Adicionar o filtro JWT
 
 
           return http.build();
