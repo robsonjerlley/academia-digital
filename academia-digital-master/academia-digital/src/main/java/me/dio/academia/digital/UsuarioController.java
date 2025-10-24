@@ -1,4 +1,4 @@
-package me.dio.academia.digital.controller;
+package me.dio.academia.digital;
 
 import jakarta.validation.Valid;
 import me.dio.academia.digital.dto.UsuarioDTO;

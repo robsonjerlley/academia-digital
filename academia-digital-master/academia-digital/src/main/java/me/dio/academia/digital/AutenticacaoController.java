@@ -1,4 +1,4 @@
-package me.dio.academia.digital.controller;
+package me.dio.academia.digital;
 
 import me.dio.academia.digital.dto.LoginRequestDTO;
 import me.dio.academia.digital.dto.LoginResponseDTO;
